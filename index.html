@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+            background-color: black;
+        }
+        .calculadora {
+            background-color: #6ca4fe;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .tela {
+            background-color: white;
+            height: 70px;
+            margin-bottom: 20px;
+            text-align: right;
+            padding: 10px;
+            font-size: 2rem;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculadora">
+            <input type="text" id="tela" class="tela form-control" disabled>
+            <div class="row g-2">
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('7')">7</button></div>
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('8')">8</button></div>
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('9')">9</button></div>
+                <div class="col-3"><button class="btn btn-warning w-100" onclick="operador('/')">÷</button></div>
+
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('4')">4</button></div>
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('5')">5</button></div>
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('6')">6</button></div>
+                <div class="col-3"><button class="btn btn-warning w-100" onclick="operador('*')">×</button></div>
+
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('1')">1</button></div>
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('2')">2</button></div>
+                <div class="col-3"><button class="btn btn-secondary w-100" onclick="adicionar('3')">3</button></div>
+                <div class="col-3"><button class="btn btn-warning w-100" onclick="operador('-')">−</button></div>
+
+                <div class="col-9"><button class="btn btn-secondary w-100" onclick="adicionar('0')">0</button></div>
+                <div class="col-3"><button class="btn btn-warning w-100" onclick="operador('+')">+</button></div>
+
+                <div class="col-6"><button class="btn btn-success w-100" onclick="resultado()">=</button></div>
+                <div class="col-6"><button class="btn btn-danger w-100" onclick="deletar()">⌫</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var numero1 = '';
+        var numero2 = '';
+        var operacao = '';
+
+        function adicionar(value) {
+            const exibir = document.getElementById('tela');
+            if (!operacao) {
+                numero1 += value;
+                exibir.value = numero1;
+            } else {
+                numero2 += value;
+                exibir.value = numero1 + ' ' + operacao + ' ' + numero2;
+            }
+        }
+
+        function operador(op) {
+            if (numero1) {
+                operacao = op;
+                const exibir = document.getElementById('tela');
+                exibir.value = numero1 + ' ' + operacao;
+            }
+        }
+
+        function deletar() {
+            const exibir = document.getElementById('tela');
+            if (numero2) {
+                numero2 = numero2.slice(0, -1);
+                exibir.value = numero2;
+            } else if (operacao) {
+                operacao = '';
+            } else {
+                numero1 = numero1.slice(0, -1);
+                exibir.value = numero1;
+            }
+        }
+
+        function resultado() {
+            const exibir = document.getElementById('tela');
+            let res = 0;
+            const num1 = parseFloat(numero1);
+            const num2 = parseFloat(numero2);
+
+            switch (operacao) {
+                case '+':
+                    res = num1 + num2;
+                    break;
+                case '-':
+                    res = num1 - num2;
+                    break;
+                case '*':
+                    res = num1 * num2;
+                    break;
+                case '/':
+                    res = num1 / num2;
+                    break;
+                default:
+                    res = 'Erro';
+            }
+
+            exibir.value = res;
+            numero1 = res.toString();
+            numero2 = '';
+            operacao = '';
+        }
+
+    </script>
+</body>
+</html>
